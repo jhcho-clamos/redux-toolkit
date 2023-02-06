@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { useAppDispatch, useAppSelecor } from "./store/hooks";
@@ -12,7 +12,7 @@ function App() {
   const value = useAppSelecor((state) => state.reducer.value);
   const userValue = useAppSelecor((state) => state.appreducer.age);
   const dispatch = useAppDispatch();
-  const { data = [], isFetching } = useFetchBreedsQuery({ limit: 10, page: 3 });
+  const { data = [], isFetching } = useFetchBreedsQuery({ limit: 10, page: 0 });
 
   function addClick(num: number) {
     batch(() => {
@@ -22,9 +22,13 @@ function App() {
   }
   function initialState() {
     // await persistor.purge();
-    dispatch(init(undefined));
+    dispatch(init());
   }
-  console.log(window.localStorage);
+  useEffect(() => {
+    if (data?.length > 0) {
+      console.log(data);
+    }
+  }, [data]);
   return (
     <div className="App">
       <header className="App-header">
@@ -43,7 +47,7 @@ function App() {
         </a>
         <button onClick={() => addClick(22)}>click</button>
         <button onClick={() => initialState()}>initState!</button>
-        {/* <div
+        <div
           style={{ overflow: "scroll", height: "200px", overflowX: "hidden" }}
         >
           {isFetching
@@ -53,7 +57,7 @@ function App() {
                   <h1 key={r.id}>{r.name}</h1>
                 </p>
               ))}
-        </div> */}
+        </div>
       </header>
     </div>
   );

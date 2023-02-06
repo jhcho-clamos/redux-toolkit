@@ -22,7 +22,7 @@ const userSlice = createSlice({
     gets(state, action: PayloadAction<number>) {
       state.age += action.payload;
     },
-    init(state, action: PayloadAction<any | undefined>) {
+    init(state) {
       state.age = initialState.age;
     },
   },
